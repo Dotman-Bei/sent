@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import AgentRegistryAbi from "@/config/abis/AgentRegistry.json";
 import BudgetVaultAbi from "@/config/abis/BudgetVault.json";
 import CircuitBreakerAbi from "@/config/abis/CircuitBreaker.json";
-import { CONTRACT_ADDRESSES } from "@/config/addresses";
+import { CONTRACT_ADDRESSES as GENERATED_ADDRESSES } from "@/config/addresses";
 import { BOT_CHAIN } from "@/config/chain";
 
 export const ABIS = {
@@ -11,7 +11,24 @@ export const ABIS = {
   CircuitBreaker: CircuitBreakerAbi,
 };
 
-export { CONTRACT_ADDRESSES };
+/**
+ * Contract addresses, resolved at build time.
+ *
+ * Defaults come from config/addresses.ts, which scripts/deploy.ts regenerates
+ * on every deployment. Each can be overridden by a VITE_* env var so a hosted
+ * build (Vercel, Netlify) can be pointed at a different deployment without
+ * touching the repo. All of these are public on-chain addresses — nothing here
+ * is secret.
+ */
+const addrEnv = import.meta.env;
+
+export const CONTRACT_ADDRESSES = {
+  BudgetVault: String(addrEnv.VITE_BUDGET_VAULT_ADDRESS ?? GENERATED_ADDRESSES.BudgetVault),
+  AgentRegistry: String(addrEnv.VITE_AGENT_REGISTRY_ADDRESS ?? GENERATED_ADDRESSES.AgentRegistry),
+  CircuitBreaker: String(
+    addrEnv.VITE_CIRCUIT_BREAKER_ADDRESS ?? GENERATED_ADDRESSES.CircuitBreaker
+  ),
+};
 
 export const HALT_REASONS = [
   "NONE",
@@ -35,10 +52,8 @@ export const REASON_LABEL: Record<HaltReason, string> = {
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
-/** True once deploy.ts has written real addresses into config/addresses.ts. */
-// Widened to string[]: addresses.ts is `as const`, so the literal types would
-// otherwise make this comparison a compile error after every deployment.
-export const isDeployed = (Object.values(CONTRACT_ADDRESSES) as string[]).every(
+/** True once real addresses are configured (generated file or env override). */
+export const isDeployed = Object.values(CONTRACT_ADDRESSES).every(
   (a) => Boolean(a) && a !== ZERO_ADDRESS
 );
 

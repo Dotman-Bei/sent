@@ -241,6 +241,55 @@ Expected output:
 
 ---
 
+## Deploying the frontend to Vercel
+
+The frontend is a static SPA that reads BOT Chain directly from the browser.
+There is no server, no API route and no database — so **there are no secrets to
+configure.**
+
+### Project settings
+
+| Setting | Value |
+|---------|-------|
+| Root Directory | **`frontend`** (required — this is a monorepo) |
+| Framework Preset | Vite |
+| Build Command | `npm run build` (default) |
+| Output Directory | `dist` (default) |
+
+Everything except Root Directory is picked up from `frontend/vercel.json`.
+
+### Environment variables
+
+Set these three for **Production, Preview and Development**:
+
+| Name | Testnet value | Mainnet value |
+|------|---------------|---------------|
+| `VITE_CHAIN_ID` | `968` | `677` |
+| `VITE_RPC_URL` | `https://rpc.bohr.life` | `https://rpc.botchain.ai` |
+| `VITE_EXPLORER_URL` | `https://scan.bohr.life` | `https://scan.botchain.ai` |
+
+Optional — only if you want a hosted build pointed at a deployment other than
+the one committed in `src/config/addresses.ts`:
+
+| Name | Purpose |
+|------|---------|
+| `VITE_BUDGET_VAULT_ADDRESS` | Override the vault address |
+| `VITE_AGENT_REGISTRY_ADDRESS` | Override the registry address |
+| `VITE_CIRCUIT_BREAKER_ADDRESS` | Override the breaker address |
+
+> **Never add `PRIVATE_KEY`, a mnemonic, or any secret to Vercel.**
+> Vite inlines every `VITE_`-prefixed variable into the JavaScript bundle sent
+> to browsers. Anything set here is readable by anyone who opens devtools. All
+> six variables above are public by design — RPC URLs and on-chain addresses.
+> The deployer key belongs only in the root `.env`, which is gitignored and used
+> solely by Hardhat on your machine.
+
+Vite requires the `VITE_` prefix; a variable named anything else is ignored at
+build time. Env changes only take effect on a **redeploy**, since they are baked
+in at build.
+
+---
+
 ## Integrating Sent into your own agent
 
 One call at the top of your loop is the whole integration:
