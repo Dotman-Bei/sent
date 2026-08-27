@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-text-primary antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    @apply bg-brand-emerald/25 text-white;
+  }
+
+  /* Slim, dark scrollbars that match the Cobalt surface palette. */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #07090d;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1a212d;
+    border-radius: 999px;
+    border: 2px solid #07090d;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #263041;
+  }
+}
+
+@layer components {
+  /* Glass panel used by the nav, dock and modals. */
+  .glass {
+    @apply border border-surface-border bg-surface/70 backdrop-blur-xl;
+  }
+
+  /* Hairline gradient border on cards, drawn with a masked pseudo-element. */
+  .card-hairline {
+    @apply relative rounded-2xl border border-surface-border bg-surface shadow-card-border;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-emerald via-brand-cyan to-brand-emerald bg-clip-text text-transparent;
+  }
+
+  .kbd {
+    @apply rounded border border-surface-border-strong bg-surface-elevated px-1.5 py-0.5 font-mono text-[10px] font-medium text-text-secondary;
+  }
+}
+
+@layer utilities {
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}

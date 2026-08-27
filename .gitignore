@@ -1,0 +1,18 @@
+node_modules/
+.env
+artifacts/
+cache/
+typechain-types/
+coverage/
+coverage.json
+dist/
+deployments/*.local.json
+.DS_Store
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/

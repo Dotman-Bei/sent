@@ -1,0 +1,28 @@
+{
+  "name": "sent-botchain",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Sent \u2014 On-Chain Agent Circuit Breaker for BOT Chain Mainnet",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "chain": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:botchain": "hardhat run scripts/deploy.ts --network botchain",
+    "demo": "hardhat run scripts/demo.ts --network localhost",
+    "seed": "hardhat run scripts/seed.ts",
+    "demo:botchain": "hardhat run scripts/demo.ts --network botchain",
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network botchain_testnet",
+    "demo:testnet": "hardhat run scripts/demo.ts --network botchain_testnet",
+    "e2e:testnet": "hardhat run scripts/e2e.ts --network botchain_testnet",
+    "e2e:local": "hardhat run scripts/e2e.ts --network localhost"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.17",
+    "typescript": "^5.7.2"
+  }
+}
