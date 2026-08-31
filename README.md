@@ -143,7 +143,7 @@ Chromium against live testnet data:
 
 ```bash
 cd frontend
-VITE_RPC_URL=https://rpc.bohr.life VITE_CHAIN_ID=968 npm run build
+VITE_RPC_URL=https://rpc.botchain.ai VITE_CHAIN_ID=677 npm run build
 npx vite preview --port 4173 &
 node scripts/verify-ui.mjs
 ```
@@ -368,14 +368,14 @@ the read-only `wouldHalt` preview.
 ## Configuration
 
 Network values default to mainnet (`https://rpc.botchain.ai` / `677`) and testnet
-(`https://rpc.bohr.life` / `968`), overridable in `.env` (contracts) or with
+(`https://rpc.botchain.ai` / `677`), overridable in `.env` (contracts) or with
 `VITE_*` vars (frontend).
 
 Point the frontend at the live testnet deployment:
 
 ```bash
 cd frontend
-VITE_RPC_URL=https://rpc.bohr.life VITE_CHAIN_ID=968 npm run dev
+VITE_RPC_URL=https://rpc.botchain.ai VITE_CHAIN_ID=677 npm run dev
 ```
 
 ---

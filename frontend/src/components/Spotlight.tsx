@@ -32,7 +32,7 @@ export function Spotlight({ data }: { data: SentData }) {
   return (
     <section className="relative py-8 pb-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2 [&>*]:min-w-0">
           <ThresholdCard data={data} />
           <TerminalCard />
         </div>
@@ -159,7 +159,7 @@ function TerminalCard() {
         />
         <div
           ref={scrollRef}
-          className="h-[340px] overflow-y-auto bg-[#05070A] p-5 font-mono text-[11.5px] leading-relaxed"
+          className="h-[340px] overflow-y-auto bg-[#05070A] p-5 font-mono text-[11.5px] leading-relaxed break-all"
         >
           {lines.map((line, i) => (
             <div key={i} className={toneClass[line.tone ?? "dim"]}>

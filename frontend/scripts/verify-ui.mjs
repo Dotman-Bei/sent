@@ -1,6 +1,6 @@
 /**
  * Drives the built frontend in a real browser and asserts it renders live
- * on-chain data from BOT Chain Testnet.
+ * on-chain data from whichever BOT Chain network the build targets.
  *
  *   npx vite preview --port 4173      # in another terminal
  *   node scripts/verify-ui.mjs
@@ -51,22 +51,56 @@ const notDeployedBanner = /Contracts are not deployed yet/i.test(body);
 check("no 'not deployed' banner", !notDeployedBanner);
 check("refreshed-from-chain timestamp shown", /refreshed/i.test(body));
 
-// Agents seeded on testnet should appear by name in the watchlist.
-const agentNames = ["research-", "summarizer-", "runaway-", "looper-", "rogue-tool-", "e2e-"];
-const found = agentNames.filter((n) => body.includes(n));
-check("agent labels from chain rendered", found.length >= 3, `found ${found.length}: ${found.join(" ")}`);
-
-// Halt explorer rows.
+// What the UI renders must match what the chain actually holds. A freshly
+// deployed network legitimately has no agents and no halts, so assert the
+// empty states there rather than pretending the UI is broken.
 const rows = await page.locator("#explorer table tbody tr").count();
-check("halt explorer has rows", rows > 0, `${rows} rows`);
+const agentNames = ["research-", "summarizer-", "runaway-", "looper-", "rogue-tool-", "e2e-", "sent-demo-"];
+const found = agentNames.filter((n) => body.includes(n));
+// The empty state renders AS a table row, and the Spotlight terminal is a
+// scripted mock containing agent-like labels, so neither proves the chain has
+// data. The empty-state copy is the only unambiguous signal.
+const chainHasData =
+  !/No agents registered yet/i.test(body) && !/No halts recorded yet/i.test(body);
 
-const reasonsShown = ["Token ceiling", "Step ceiling", "Manual halt", "Deadline", "Gas ceiling"]
-  .filter((r) => body.includes(r));
-check("halt reasons rendered", reasonsShown.length >= 3, reasonsShown.join(", "));
+if (chainHasData) {
+  check("agent labels from chain rendered", found.length >= 3, `found ${found.length}: ${found.join(" ")}`);
+  check("halt explorer has rows", rows > 0, `${rows} rows`);
+  const reasonsShown = ["Token ceiling", "Step ceiling", "Manual halt", "Deadline", "Gas ceiling"]
+    .filter((r) => body.includes(r));
+  check("halt reasons rendered", reasonsShown.length >= 3, reasonsShown.join(", "));
+} else {
+  console.log("   (chain is empty — asserting empty states instead)");
+  check(
+    "empty agent state rendered",
+    /No agents registered yet/i.test(body),
+    "expected the watchlist empty state"
+  );
+  check(
+    "empty halt state rendered",
+    /No halts recorded yet/i.test(body),
+    "expected the explorer empty state"
+  );
+  // Read the metric tile itself rather than regexing the whole page, where
+  // a stray "0" anywhere would satisfy the assertion.
+  const haltTile = page.locator("#dashboard", { hasText: "Halts fired" })
+    .locator("text=Halts fired")
+    .first();
+  const tileText = await haltTile.locator("xpath=../..").innerText().catch(() => "");
+  check("halt counter tile reads 0", /(^|\s)0(\s|$)/.test(tileText), JSON.stringify(tileText));
+}
 
 console.log("\n3. Chart + interactive pieces");
-check("Recharts SVG rendered", (await page.locator("#dashboard svg.recharts-surface").count()) > 0);
-check("circuit ceiling reference line", body.includes("circuit ceiling") || (await page.locator("text=circuit ceiling").count()) > 0);
+if (chainHasData) {
+  check("Recharts SVG rendered", (await page.locator("#dashboard svg.recharts-surface").count()) > 0);
+  check(
+    "circuit ceiling reference line",
+    body.includes("circuit ceiling") || (await page.locator("text=circuit ceiling").count()) > 0
+  );
+} else {
+  // A fresh chain has nothing to plot; the empty state stands in for the chart.
+  check("no chart artefacts on an empty chain", !/NaN|Infinity|undefined/i.test(body));
+}
 
 // ⌘K palette
 await page.keyboard.press("Control+K");
