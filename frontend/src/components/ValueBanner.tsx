@@ -27,7 +27,7 @@ export function ValueBanner() {
               had to be <span className="text-gradient">manual?</span>
             </h2>
             <p className="mt-5 max-w-lg text-pretty leading-relaxed text-text-secondary">
-              Today every guard rail lives inside the agent process — a `max_iterations`
+              Today every guard rail lives inside the agent process, a `max_iterations`
               constant the model can talk its way around, a try/except that swallows the
               loop, a budget check that dies with the crash that caused it.
             </p>

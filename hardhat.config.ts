@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // BOT Chain. chainId 677 was read live from https://rpc.botchain.ai
-// (eth_chainId -> 0x2a5) — note this differs from the 2017 quoted in build.md.
+// (eth_chainId -> 0x2a5), note this differs from the 2017 quoted in build.md.
 const BOTCHAIN_RPC_URL = process.env.BOTCHAIN_RPC_URL ?? "https://rpc.botchain.ai";
 const BOTCHAIN_CHAIN_ID = Number(process.env.BOTCHAIN_CHAIN_ID ?? 677);
 

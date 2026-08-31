@@ -86,7 +86,7 @@ function DeploymentNotice() {
     <div className="fixed inset-x-0 top-16 z-40 border-b border-brand-amber/20 bg-brand-amber/10 px-4 py-2.5">
       <p className="mx-auto flex max-w-7xl items-center justify-center gap-2 text-center text-xs text-brand-amber">
         <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-        Contracts are not deployed yet — run{" "}
+        Contracts are not deployed yet. Run{" "}
         <code className="font-mono">npm run deploy:botchain</code> to populate live data.
       </p>
     </div>

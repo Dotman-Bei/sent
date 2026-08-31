@@ -1,7 +1,7 @@
 /**
  * BOT Chain network config, derived from the active chain id so the UI never
  * mislabels which network it is reading. Values verified against
- * dev-docs.botchain.ai/docs/Developers/json-rpc-endpoint/ — note the testnet
+ * dev-docs.botchain.ai/docs/Developers/json-rpc-endpoint/, note the testnet
  * lives on bohr.life, not botchain.ai.
  */
 const env = import.meta.env;

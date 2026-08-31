@@ -142,7 +142,7 @@ export function Footer() {
             MIT licensed · {BOT_CHAIN.name} · chainId {BOT_CHAIN.chainId}
           </p>
           <p className="font-mono text-[11px] text-text-muted">
-            Sent — your agent can't run forever.
+            Sent. Your agent can't run forever.
           </p>
         </div>
       </div>

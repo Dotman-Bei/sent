@@ -17,7 +17,7 @@ export const ABIS = {
  * Defaults come from config/addresses.ts, which scripts/deploy.ts regenerates
  * on every deployment. Each can be overridden by a VITE_* env var so a hosted
  * build (Vercel, Netlify) can be pointed at a different deployment without
- * touching the repo. All of these are public on-chain addresses — nothing here
+ * touching the repo. All of these are public on-chain addresses, nothing here
  * is secret.
  */
 const addrEnv = import.meta.env;
@@ -248,7 +248,7 @@ export async function fetchStepSeries(
         return { step: Number(step), tokens: running, agent: decodeAgentId(agentId) };
       });
     } catch {
-      // Range rejected by the RPC — try a narrower window.
+      // Range rejected by the RPC, try a narrower window.
     }
   }
   return [];

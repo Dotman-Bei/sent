@@ -1,5 +1,5 @@
 """
-Sent — simulated runaway agent runner.
+Sent, simulated runaway agent runner.
 
 A deliberately unbounded agent loop with no local guard rails. Before every
 step it asks the on-chain CircuitBreaker for permission. When the budget is
@@ -108,7 +108,7 @@ class Runner:
         if self.registry.functions.owners(self.agent_id).call() != (
             "0x" + "0" * 40
         ):
-            print(f"Agent '{self.label}' already registered — reusing it.")
+            print(f"Agent '{self.label}' already registered, reusing it.")
             return
 
         print(
@@ -156,7 +156,7 @@ class Runner:
             print(f"  step {step:>2} ok  | +{tokens_used} tokens | total {total}")
             time.sleep(args.delay)
 
-        print("\nAgent completed inside budget — the breaker never tripped.")
+        print("\nAgent completed inside budget, the breaker never tripped.")
         return 0
 
     def report_halt(self, step: int, receipt: dict) -> None:
@@ -182,7 +182,7 @@ class Runner:
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Sent — runaway agent simulator")
+    p = argparse.ArgumentParser(description="Sent, runaway agent simulator")
     p.add_argument("--label", default="demo-agent-1", help="agent id (max 31 chars)")
     p.add_argument("--network", default="botchain", help="deployments/<network>.json")
     p.add_argument("--rpc", default=RPC_URL)

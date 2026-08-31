@@ -1,4 +1,4 @@
-# Sent — Agent Runner
+# Sent, Agent Runner
 
 Simulated runaway AI agent. No local guard rails: every step asks the on-chain
 `CircuitBreaker` for permission, and the chain is what stops it.

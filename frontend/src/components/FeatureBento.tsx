@@ -23,7 +23,7 @@ export function FeatureBento({ onOpenPalette }: { onOpenPalette: () => void }) {
         </div>
 
         <div className="grid auto-rows-[minmax(180px,auto)] gap-4 md:grid-cols-3">
-          {/* 1 — deterministic budgets (wide) */}
+          {/* 1. deterministic budgets (wide) */}
           <BentoCard
             className="md:col-span-2"
             icon={<Gauge className="h-4 w-4" />}
@@ -49,16 +49,16 @@ export function FeatureBento({ onOpenPalette }: { onOpenPalette: () => void }) {
             </div>
           </BentoCard>
 
-          {/* 2 — real-time tripping */}
+          {/* 2. real-time tripping */}
           <BentoCard
             icon={<Zap className="h-4 w-4" />}
             title="Real-time tripping"
-            body="checkLimits() runs before every step. The moment a ceiling is crossed the agent is deactivated in the same transaction — and the escrow is refunded."
+            body="checkLimits() runs before every step. The moment a ceiling is crossed the agent is deactivated in the same transaction, and the escrow is refunded."
             delay={0.05}
             tone="cyan"
           />
 
-          {/* 3 — verifiable proofs */}
+          {/* 3. verifiable proofs */}
           <BentoCard
             icon={<FileCheck2 className="h-4 w-4" />}
             title="Verifiable halt proofs"
@@ -67,7 +67,7 @@ export function FeatureBento({ onOpenPalette }: { onOpenPalette: () => void }) {
             tone="violet"
           />
 
-          {/* 4 — framework integrations */}
+          {/* 4. framework integrations */}
           <BentoCard
             icon={<Plug className="h-4 w-4" />}
             title="Drops into your stack"
@@ -83,7 +83,7 @@ export function FeatureBento({ onOpenPalette }: { onOpenPalette: () => void }) {
             </div>
           </BentoCard>
 
-          {/* 5 — manual kill switch */}
+          {/* 5. manual kill switch */}
           <BentoCard
             icon={<Command className="h-4 w-4" />}
             title="Instant manual control"

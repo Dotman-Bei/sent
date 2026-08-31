@@ -44,7 +44,7 @@ export function Spotlight({ data }: { data: SentData }) {
 /* ------------------------------------------------------- threshold warnings */
 
 function ThresholdCard({ data }: { data: SentData }) {
-  // Agents burning ≥70% of any ceiling — the warning band before a trip.
+  // Agents burning ≥70% of any ceiling, the warning band before a trip.
   const atRisk = data.agents
     .filter((a) => a.active && !a.halted)
     .map((a) => ({

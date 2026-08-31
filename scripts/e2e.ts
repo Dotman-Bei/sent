@@ -34,7 +34,7 @@ async function main() {
   const tag = Date.now().toString().slice(-6);
   const id = (n: string) => ethers.encodeBytes32String(`e2e-${n}-${tag}`);
 
-  console.log(`\nSent — end-to-end on ${network.name} (chainId ${chainId})`);
+  console.log(`\nSent, end-to-end on ${network.name} (chainId ${chainId})`);
   console.log(`Account: ${me.address}`);
   console.log(`Balance: ${ethers.formatEther(await ethers.provider.getBalance(me.address))} BOT\n`);
 

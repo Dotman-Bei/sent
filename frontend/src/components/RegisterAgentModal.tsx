@@ -157,7 +157,7 @@ export function RegisterAgentModal({
               <form onSubmit={submit} className="space-y-5 px-6 py-5">
                 <Field
                   label="Agent ID"
-                  hint="Packed into bytes32 — the id your runner passes to checkLimits()."
+                  hint="Packed into bytes32. The id your runner passes to checkLimits()."
                   suffix={`${labelBytes}/31 bytes`}
                 >
                   <input
@@ -228,7 +228,7 @@ export function RegisterAgentModal({
                 <div className="rounded-xl border border-surface-border bg-surface-subtle px-3.5 py-3">
                   <p className="font-mono text-[10px] text-text-muted">agentId preview</p>
                   <p className="mt-1 break-all font-mono text-[11px] text-brand-emerald">
-                    {form.label && !labelTooLong ? encodeAgentId(form.label.trim()) : "—"}
+                    {form.label && !labelTooLong ? encodeAgentId(form.label.trim()) : "-"}
                   </p>
                 </div>
 

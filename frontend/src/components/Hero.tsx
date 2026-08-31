@@ -39,7 +39,7 @@ export function Hero({
 
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-text-secondary sm:text-lg">
             Sent is an on-chain circuit breaker for AI agents. Register an execution
-            budget — steps, tokens, gas, deadline — and the chain halts the run the
+            budget (steps, tokens, gas, deadline) and the chain halts the run the
             moment it's breached, refunds the escrow, and writes immutable proof of{" "}
             <span className="text-text-primary">why</span> it stopped.
           </p>

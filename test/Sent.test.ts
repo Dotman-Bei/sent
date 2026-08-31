@@ -14,7 +14,7 @@ const HaltReason = {
   MANUAL: 5n,
 };
 
-describe("Sent — On-Chain Agent Circuit Breaker", () => {
+describe("Sent, On-Chain Agent Circuit Breaker", () => {
   let vault: BudgetVault;
   let registry: AgentRegistry;
   let breaker: CircuitBreaker;

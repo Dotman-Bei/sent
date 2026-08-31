@@ -5,7 +5,7 @@ import * as path from "path";
 /**
  * Seeds a deployment with a spread of agents so the dashboard and halt
  * explorer have real data to render during a demo. Every state below is
- * produced by genuine on-chain activity — nothing is mocked.
+ * produced by genuine on-chain activity, nothing is mocked.
  *
  *   npx hardhat run scripts/seed.ts --network localhost
  */
@@ -61,7 +61,7 @@ async function main() {
   console.log("✔ MANUAL halt recorded");
 
   const halts = await breaker.haltCount();
-  console.log(`\nSeed complete — ${await registry.agentCount()} agents, ${halts} halt proofs.`);
+  console.log(`\nSeed complete, ${await registry.agentCount()} agents, ${halts} halt proofs.`);
 }
 
 main().catch((error) => {

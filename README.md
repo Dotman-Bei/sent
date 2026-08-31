@@ -1,11 +1,11 @@
-# Sent — On-Chain Agent Circuit Breaker
+# Sent, On-Chain Agent Circuit Breaker
 
 > Stop runaway AI agents with a kill switch they don't control.
 
 **BOT Chain Builder Challenge #2 · AI Native Applications track · BOT Chain Mainnet**
 
 Sent is a decentralized circuit breaker for AI agents. An agent registers an
-execution budget — max steps, max tokens, cumulative gas, wall-clock deadline —
+execution budget, max steps, max tokens, cumulative gas, wall-clock deadline
 and calls the breaker before every step. The moment a ceiling is crossed, the
 contract halts the run in the same transaction, refunds the escrowed budget, and
 writes an immutable `HaltRecord` proving **why** it stopped.
@@ -26,7 +26,7 @@ constant, a try/except that swallows the loop, a budget check that dies with the
 crash that caused it. The thing being limited is also the thing enforcing the
 limit.
 
-Sent moves the limit somewhere the agent cannot reach — a contract it does not
+Sent moves the limit somewhere the agent cannot reach, a contract it does not
 control. The breaker reads the same for the operator, the auditor, and the user
 paying the bill.
 
@@ -94,18 +94,18 @@ Note the testnet RPC is on `bohr.life`, **not** `botchain.ai`.
 | Network | Chain ID | RPC | Faucet |
 |---------|----------|-----|--------|
 | BOT Chain Testnet | `968` | `https://rpc.bohr.life` | [faucet.botchain.ai](https://faucet.botchain.ai/basic) |
-| BOT Chain Mainnet | `677` | `https://rpc.botchain.ai` | — |
+| BOT Chain Mainnet | `677` | `https://rpc.botchain.ai` |, |
 
 Explorers: [scan.bohr.life](https://scan.bohr.life) (testnet) ·
 [scan.botchain.ai](https://scan.botchain.ai) (mainnet). Block time is ~0.75s on
 both, which matters when choosing `getLogs` lookback windows.
 
-> build.md quoted chainId `2017` for mainnet. That is incorrect — the live chain
+> build.md quoted chainId `2017` for mainnet. That is incorrect, the live chain
 > reports `677`. Deploying against 2017 would have had every transaction rejected.
 
 ## Contract addresses
 
-### BOT Chain Testnet (chainId 968) — **live**
+### BOT Chain Testnet (chainId 968), **live**
 
 | Contract | Address |
 |----------|---------|
@@ -113,7 +113,7 @@ both, which matters when choosing `getLogs` lookback windows.
 | `AgentRegistry` | `0x521C15E3cF59a062204279EC715e81859d95B5AF` |
 | `BudgetVault` | `0x3822E863D851DfC9CD0cfaF687195928461f72e4` |
 
-**End-to-end verified on testnet — 40/40 assertions passing.** Reproduce with:
+**End-to-end verified on testnet, 40/40 assertions passing.** Reproduce with:
 
 ```bash
 npm run e2e:testnet
@@ -133,10 +133,10 @@ npm run e2e:testnet
 | 10 | Halt history integrity, all 5 reasons present | pass |
 
 The Python runner (`agent_runner.py`) was also run against testnet and halted on
-`MAX_TOKENS` at step 5 —
+`MAX_TOKENS` at step 5
 [proof tx `0x0fa6df53…`](https://scan.bohr.life/tx/0x0fa6df538883572ca9d99bffcda85a27fbdd7f66027f1a246d732567e56e7c13).
 
-### Frontend verified in a real browser — 15/15
+### Frontend verified in a real browser, 15/15
 
 `frontend/scripts/verify-ui.mjs` drives the production build in headless
 Chromium against live testnet data:
@@ -152,7 +152,7 @@ Asserts React mounts, agent labels and all 10 halt proofs render from chain, the
 Recharts usage curve draws against its ceiling, Ctrl+K and the register modal
 open, no runtime errors or failed requests, and no horizontal overflow at 390px.
 
-### BOT Chain Mainnet (chainId 677) — **live**
+### BOT Chain Mainnet (chainId 677), **live**
 
 | Contract | Address |
 |----------|---------|
@@ -164,12 +164,12 @@ Mainnet and testnet share these addresses: the same deployer created all three
 at nonces 0-2 on both chains, and a CREATE address derives only from the
 deployer and nonce. Always check the chainId alongside the address.
 
-**Live halt proof on mainnet** — `sent-demo-mainnet` ran past its token ceiling
+**Live halt proof on mainnet**: `sent-demo-mainnet` ran past its token ceiling
 and the chain stopped it:
 
 | Field | Value |
 |---|---|
-| Reason | `MAX_TOKENS` — Max tokens exceeded |
+| Reason | `MAX_TOKENS`, Max tokens exceeded |
 | Halted at | step 4 (3 steps completed, 970 / 1200 tokens) |
 | Refunded | 0.005 BOT, returned automatically |
 | Proof tx | `0x0780be83a2b714b46bb238b295b2630a1720833e1d85a5e900736c58a60b0afa` |
@@ -244,7 +244,7 @@ VITE_RPC_URL=http://127.0.0.1:8545 VITE_CHAIN_ID=31337 npm run dev
 # TypeScript version, no extra deps
 npm run demo
 
-# Python version — the reference integration
+# Python version, the reference integration
 cd agent-runner
 pip install -r requirements.txt
 cp .env.example .env          # add PRIVATE_KEY
@@ -270,14 +270,14 @@ Expected output:
 ## Deploying the frontend to Vercel
 
 The frontend is a static SPA that reads BOT Chain directly from the browser.
-There is no server, no API route and no database — so **there are no secrets to
+There is no server, no API route and no database, so **there are no secrets to
 configure.**
 
 ### Project settings
 
 | Setting | Value |
 |---------|-------|
-| Root Directory | **`frontend`** (required — this is a monorepo) |
+| Root Directory | **`frontend`** (required, this is a monorepo) |
 | Framework Preset | Vite |
 | Build Command | `npm run build` (default) |
 | Output Directory | `dist` (default) |
@@ -294,7 +294,7 @@ Set these three for **Production, Preview and Development**:
 | `VITE_RPC_URL` | `https://rpc.bohr.life` | `https://rpc.botchain.ai` |
 | `VITE_EXPLORER_URL` | `https://scan.bohr.life` | `https://scan.botchain.ai` |
 
-Optional — only if you want a hosted build pointed at a deployment other than
+Optional, only if you want a hosted build pointed at a deployment other than
 the one committed in `src/config/addresses.ts`:
 
 | Name | Purpose |
@@ -306,7 +306,7 @@ the one committed in `src/config/addresses.ts`:
 > **Never add `PRIVATE_KEY`, a mnemonic, or any secret to Vercel.**
 > Vite inlines every `VITE_`-prefixed variable into the JavaScript bundle sent
 > to browsers. Anything set here is readable by anyone who opens devtools. All
-> six variables above are public by design — RPC URLs and on-chain addresses.
+> six variables above are public by design, RPC URLs and on-chain addresses.
 > The deployer key belongs only in the root `.env`, which is gitignored and used
 > solely by Hardhat on your machine.
 
@@ -323,7 +323,7 @@ One call at the top of your loop is the whole integration:
 ```python
 while not done:
     if not breaker.functions.checkLimits(agent_id, tokens_used).call():
-        break          # the chain said stop — escrow is already refunded
+        break          # the chain said stop, escrow is already refunded
     step()
 ```
 
@@ -357,15 +357,15 @@ sent-botchain/
 
 The contracts follow the checklist for this submission:
 
-- **Access control** — only the `CircuitBreaker` can write usage counters, so an
+- **Access control**: only the `CircuitBreaker` can write usage counters, so an
   agent cannot inflate its own accounting to dodge a limit, and a third party
   cannot burn someone else's budget. Only the owner can authorize a breaker.
 - **ReentrancyGuard** on every path that moves native BOT out of the vault.
-- **Refunds cannot block a halt** — `vault.release()` is wrapped in `try/catch`
+- **Refunds cannot block a halt**: `vault.release()` is wrapped in `try/catch`
   inside `_halt`, so a vault failure can never keep a runaway agent alive.
 - **`call` over `transfer`** for payouts, so refunds don't break on gas repricing.
 - **Custom errors** everywhere, and events on every state change.
-- **No hardcoded keys** — everything comes from `.env`, which is gitignored.
+- **No hardcoded keys**: everything comes from `.env`, which is gitignored.
 
 Compiles with **zero warnings** under Solidity 0.8.20.
 

@@ -25,7 +25,7 @@ export function formatNumber(value: number | bigint) {
   return new Intl.NumberFormat("en").format(value as number);
 }
 
-/** "3m ago", "2h ago" — halt records are read as unix seconds. */
+/** "3m ago", "2h ago", halt records are read as unix seconds. */
 export function timeAgo(unixSeconds: number | bigint) {
   const seconds = Math.max(0, Math.floor(Date.now() / 1000) - Number(unixSeconds));
   if (seconds < 60) return `${seconds}s ago`;

@@ -124,7 +124,7 @@ export function HaltExplorer({ data }: { data: SentData }) {
                       <ShieldX className="mx-auto h-6 w-6 text-text-muted" />
                       <p className="mt-3 text-sm text-text-secondary">
                         {data.halts.length === 0
-                          ? "No halts recorded yet — every agent has stayed inside budget."
+                          ? "No halts recorded yet. Every agent has stayed inside budget."
                           : "No halts match this filter."}
                       </p>
                     </td>

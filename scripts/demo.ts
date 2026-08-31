@@ -28,7 +28,7 @@ async function main() {
   const agentId = ethers.encodeBytes32String(label);
   const escrow = ethers.parseEther("0.01");
 
-  console.log("\n🤖 Sent — runaway agent demo");
+  console.log("\n🤖 Sent, runaway agent demo");
   console.log("   agent :", label);
   console.log("   budget: 5 steps · 1000 tokens · 10 min deadline");
   console.log("   escrow:", ethers.formatEther(escrow), "BOT\n");

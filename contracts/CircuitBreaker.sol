@@ -152,7 +152,7 @@ contract CircuitBreaker {
         }
     }
 
-    /// @notice Read-only budget check — no state change, for UI warnings.
+    /// @notice Read-only budget check, no state change, for UI warnings.
     function wouldHalt(bytes32 agentId, uint256 tokensUsed) external view returns (bool, HaltReason) {
         if (halted[agentId]) return (true, haltRecords[agentId].reason);
         AgentRegistry.BudgetProfile memory profile = registry.getProfile(agentId);

@@ -34,7 +34,7 @@ const OUT = process.env.OUT_DIR ?? ".";
 let pass = 0;
 let fail = 0;
 const check = (label, ok, detail = "") => {
-  console.log(`   ${ok ? "PASS" : "FAIL"}  ${label}${detail ? `  — ${detail}` : ""}`);
+  console.log(`   ${ok ? "PASS" : "FAIL"}  ${label}${detail ? `: ${detail}` : ""}`);
   ok ? pass++ : fail++;
 };
 
@@ -94,7 +94,7 @@ if (chainHasData) {
     .filter((r) => body.includes(r));
   check("halt reason rendered", reasonsShown.length >= 1, reasonsShown.join(", "));
 } else {
-  console.log("   (chain is empty — asserting empty states instead)");
+  console.log("   (chain is empty, asserting empty states instead)");
   check(
     "empty agent state rendered",
     /No agents registered yet/i.test(body),
