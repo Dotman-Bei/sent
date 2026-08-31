@@ -32,7 +32,7 @@ load_dotenv(ROOT / ".env")
 HALT_REASONS = ["NONE", "MAX_STEPS", "MAX_TOKENS", "MAX_GAS", "DEADLINE", "MANUAL"]
 
 RPC_URL = os.getenv("BOTCHAIN_RPC_URL", "https://rpc.botchain.ai")
-CHAIN_ID = int(os.getenv("BOTCHAIN_CHAIN_ID", "2017"))
+CHAIN_ID = int(os.getenv("BOTCHAIN_CHAIN_ID", "677"))
 PRIVATE_KEY = os.getenv("PRIVATE_KEY", "")
 
 

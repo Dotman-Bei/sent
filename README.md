@@ -152,13 +152,21 @@ Asserts React mounts, agent labels and all 10 halt proofs render from chain, the
 Recharts usage curve draws against its ceiling, Ctrl+K and the register modal
 open, no runtime errors or failed requests, and no horizontal overflow at 390px.
 
-### BOT Chain Mainnet (chainId 677)
+### BOT Chain Mainnet (chainId 677) — **live**
 
 | Contract | Address |
 |----------|---------|
-| `CircuitBreaker` | `<fill after mainnet deploy>` |
-| `AgentRegistry` | `<fill after mainnet deploy>` |
-| `BudgetVault` | `<fill after mainnet deploy>` |
+| `CircuitBreaker` | `0x959A3B3d2856288E044136dAF3e7823f8dD7A449` |
+| `AgentRegistry` | `0x521C15E3cF59a062204279EC715e81859d95B5AF` |
+| `BudgetVault` | `0x3822E863D851DfC9CD0cfaF687195928461f72e4` |
+
+Mainnet and testnet share these addresses: the same deployer created all three
+at nonces 0-2 on both chains, and a CREATE address derives only from the
+deployer and nonce. Always check the chainId alongside the address.
+
+Deployment cost 3,371,141 gas (0.0674 BOT at 20 gwei). Verified on-chain after
+deploy: bytecode present at all three addresses, all three permission flags
+set, and every cross-contract reference matching.
 
 `scripts/deploy.ts` writes these into `deployments/<network>.json` and
 `frontend/src/config/addresses.ts` automatically.
