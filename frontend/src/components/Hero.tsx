@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import { Badge, Button } from "@/components/ui";
+import { ArrowRight, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui";
 import { compact } from "@/lib/utils";
 
 export function Hero({
@@ -26,11 +26,6 @@ export function Hero({
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="mx-auto max-w-3xl text-center"
         >
-          <Badge tone="emerald" className="mb-6">
-            <Sparkles className="h-3 w-3" />
-            BOT Chain Builder Challenge #2 · Live
-          </Badge>
-
           <h1 className="text-balance text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl lg:text-[68px]">
             Your AI agent
             <br />

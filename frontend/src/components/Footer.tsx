@@ -1,4 +1,5 @@
 import { ArrowRight, Github, Send, Zap } from "lucide-react";
+import { LogoMark } from "@/components/Logo";
 import { Badge, Button } from "@/components/ui";
 import { BOT_CHAIN, addressUrl } from "@/config/chain";
 import { CONTRACT_ADDRESSES, isDeployed } from "@/lib/contracts";
@@ -50,9 +51,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-emerald to-brand-cyan">
-                <Zap className="h-4 w-4 text-background" strokeWidth={2.5} />
-              </span>
+              <LogoMark className="h-8 w-8" />
               <span className="text-[17px] font-bold tracking-tight">Sent</span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-text-secondary">

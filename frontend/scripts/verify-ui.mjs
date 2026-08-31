@@ -19,12 +19,23 @@ const deployment = JSON.parse(
 );
 const RPC = process.env.UI_RPC ?? (NET === "botchain" ? "https://rpc.botchain.ai" : "https://rpc.bohr.life");
 const provider = new ethers.JsonRpcProvider(RPC, deployment.chainId, { staticNetwork: true });
+// A single transient RPC blip should not fail an entire UI run, so retry.
 const onChain = await (async () => {
   const reg = new ethers.Contract(deployment.contracts.AgentRegistry,
     ["function agentCount() view returns (uint256)"], provider);
   const brk = new ethers.Contract(deployment.contracts.CircuitBreaker,
     ["function haltCount() view returns (uint256)"], provider);
-  return { agents: Number(await reg.agentCount()), halts: Number(await brk.haltCount()) };
+  let last;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      return { agents: Number(await reg.agentCount()), halts: Number(await brk.haltCount()) };
+    } catch (err) {
+      last = err;
+      console.log(`   chain read attempt ${attempt} failed (${err.code ?? err.name}), retrying`);
+      await new Promise((r) => setTimeout(r, 2000 * attempt));
+    }
+  }
+  throw last;
 })();
 console.log(`chain ${NET} (${deployment.chainId}): ${onChain.agents} agents, ${onChain.halts} halts`);
 

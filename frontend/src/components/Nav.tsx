@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { AlertTriangle, Command, Wallet, Zap } from "lucide-react";
-import { Badge, Button, LiveDot } from "@/components/ui";
+import { AlertTriangle, Command, Wallet } from "lucide-react";
+import { Button, LiveDot } from "@/components/ui";
+import { LogoMark } from "@/components/Logo";
 import { BOT_CHAIN } from "@/config/chain";
 import { cn, shortAddress } from "@/lib/utils";
 import type { WalletState } from "@/hooks/useWallet";
@@ -39,14 +40,12 @@ export function Nav({
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <a href="#top" className="flex items-center gap-2.5">
-          <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-emerald to-brand-cyan">
-            <Zap className="h-4 w-4 text-background" strokeWidth={2.5} />
-          </span>
+          <LogoMark className="h-8 w-8" />
           <span className="text-[17px] font-bold tracking-tight">Sent</span>
-          <Badge tone="cyan" className="hidden sm:inline-flex">
+          <span className="hidden items-center gap-1.5 rounded-full border border-surface-border px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-text-muted sm:inline-flex">
             <LiveDot />
             {BOT_CHAIN.name}
-          </Badge>
+          </span>
         </a>
 
         <div className="hidden items-center gap-1 md:flex">
