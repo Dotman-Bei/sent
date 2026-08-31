@@ -6,6 +6,27 @@
  *   node scripts/verify-ui.mjs
  */
 import { chromium } from "playwright";
+import { ethers } from "ethers";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+// Ground truth: what the target chain actually holds right now. The UI is
+// then asserted to match this, so the same checks hold on a freshly deployed
+// network, a seeded testnet, or mainnet with a single proof.
+const NET = process.env.UI_NETWORK ?? "botchain";
+const deployment = JSON.parse(
+  readFileSync(join(import.meta.dirname, "..", "..", "deployments", `${NET}.json`), "utf8")
+);
+const RPC = process.env.UI_RPC ?? (NET === "botchain" ? "https://rpc.botchain.ai" : "https://rpc.bohr.life");
+const provider = new ethers.JsonRpcProvider(RPC, deployment.chainId, { staticNetwork: true });
+const onChain = await (async () => {
+  const reg = new ethers.Contract(deployment.contracts.AgentRegistry,
+    ["function agentCount() view returns (uint256)"], provider);
+  const brk = new ethers.Contract(deployment.contracts.CircuitBreaker,
+    ["function haltCount() view returns (uint256)"], provider);
+  return { agents: Number(await reg.agentCount()), halts: Number(await brk.haltCount()) };
+})();
+console.log(`chain ${NET} (${deployment.chainId}): ${onChain.agents} agents, ${onChain.halts} halts`);
 
 const URL = process.env.UI_URL ?? "http://localhost:4173/";
 const OUT = process.env.OUT_DIR ?? ".";
@@ -60,15 +81,18 @@ const found = agentNames.filter((n) => body.includes(n));
 // The empty state renders AS a table row, and the Spotlight terminal is a
 // scripted mock containing agent-like labels, so neither proves the chain has
 // data. The empty-state copy is the only unambiguous signal.
-const chainHasData =
-  !/No agents registered yet/i.test(body) && !/No halts recorded yet/i.test(body);
+const chainHasData = onChain.agents > 0 || onChain.halts > 0;
 
 if (chainHasData) {
-  check("agent labels from chain rendered", found.length >= 3, `found ${found.length}: ${found.join(" ")}`);
-  check("halt explorer has rows", rows > 0, `${rows} rows`);
+  check("agent label from chain rendered", found.length >= 1, `found: ${found.join(" ")}`);
+  check(
+    "halt explorer row count matches chain",
+    rows === onChain.halts,
+    `${rows} rows vs ${onChain.halts} halts on chain`
+  );
   const reasonsShown = ["Token ceiling", "Step ceiling", "Manual halt", "Deadline", "Gas ceiling"]
     .filter((r) => body.includes(r));
-  check("halt reasons rendered", reasonsShown.length >= 3, reasonsShown.join(", "));
+  check("halt reason rendered", reasonsShown.length >= 1, reasonsShown.join(", "));
 } else {
   console.log("   (chain is empty — asserting empty states instead)");
   check(

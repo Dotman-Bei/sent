@@ -164,6 +164,24 @@ Mainnet and testnet share these addresses: the same deployer created all three
 at nonces 0-2 on both chains, and a CREATE address derives only from the
 deployer and nonce. Always check the chainId alongside the address.
 
+**Live halt proof on mainnet** — `sent-demo-mainnet` ran past its token ceiling
+and the chain stopped it:
+
+| Field | Value |
+|---|---|
+| Reason | `MAX_TOKENS` — Max tokens exceeded |
+| Halted at | step 4 (3 steps completed, 970 / 1200 tokens) |
+| Refunded | 0.005 BOT, returned automatically |
+| Proof tx | `0x0780be83a2b714b46bb238b295b2630a1720833e1d85a5e900736c58a60b0afa` |
+| Block | 21592631 |
+
+Reproduce it with `--escrow` to see the refund path end to end:
+
+```bash
+cd agent-runner
+python agent_runner.py --label my-agent --network botchain   --rpc https://rpc.botchain.ai --chain-id 677   --escrow 0.005 --max-steps 8 --max-tokens 1200
+```
+
 Deployment cost 3,371,141 gas (0.0674 BOT at 20 gwei). Verified on-chain after
 deploy: bytecode present at all three addresses, all three permission flags
 set, and every cross-contract reference matching.

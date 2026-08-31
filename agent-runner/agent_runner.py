@@ -87,17 +87,18 @@ class Runner:
 
     # ------------------------------------------------------------------ chain
 
-    def send(self, fn) -> dict:
+    def send(self, fn, value: int = 0) -> dict:
         """Build, sign and mine one transaction."""
-        tx = fn.build_transaction(
-            {
-                "from": self.account.address,
-                "nonce": self.w3.eth.get_transaction_count(self.account.address),
-                "gas": 400_000,
-                "gasPrice": self.w3.eth.gas_price,
-                "chainId": self.chain_id,
-            }
-        )
+        params = {
+            "from": self.account.address,
+            "nonce": self.w3.eth.get_transaction_count(self.account.address),
+            "gas": 400_000,
+            "gasPrice": self.w3.eth.gas_price,
+            "chainId": self.chain_id,
+        }
+        if value:
+            params["value"] = value
+        tx = fn.build_transaction(params)
         signed = self.account.sign_transaction(tx)
         raw = getattr(signed, "raw_transaction", None) or signed.rawTransaction
         tx_hash = self.w3.eth.send_raw_transaction(raw)
@@ -114,6 +115,9 @@ class Runner:
             f"Registering '{self.label}' | {args.max_steps} steps "
             f"| {args.max_tokens} tokens | {args.duration}s deadline"
         )
+        escrow_wei = self.w3.to_wei(str(args.escrow), "ether") if args.escrow else 0
+        if escrow_wei:
+            print(f"  escrowing {args.escrow} BOT - refunded to the vault on halt")
         receipt = self.send(
             self.registry.functions.registerAgent(
                 self.agent_id,
@@ -121,7 +125,8 @@ class Runner:
                 args.max_tokens,
                 args.max_gas,
                 args.duration,
-            )
+            ),
+            value=escrow_wei,
         )
         print(f"  registered in block {receipt['blockNumber']}\n")
 
@@ -190,6 +195,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--duration", type=int, default=600, help="budget: seconds")
     p.add_argument("--min-tokens", type=int, default=100)
     p.add_argument("--max-tokens-per-step", type=int, default=500)
+    p.add_argument(
+        "--escrow",
+        default="0",
+        help="BOT to escrow against the agent; refunded automatically on halt",
+    )
     p.add_argument("--skip-register", action="store_true")
     return p.parse_args()
 
